@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICE 旅のしおり</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #333;
+      --accent-color: #004e7c;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* ヘッダー */
+    header {
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 20px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin: 0;
+      letter-spacing: 0.1em;
+    }
+
+    p.hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 5px;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* 3Dフリップカードのコンテナ */
+    .scene {
+      width: 95%; /* スマホの画面幅いっぱい */
+      max-width: 900px; /* PCでは大きくなりすぎないように制限 */
+      
+      /* 【ここが重要】画像の比率に合わせる設定 */
+      aspect-ratio: 3840 / 2715; 
+      
+      margin: auto;
+      perspective: 1500px; /* 奥行きを少し深めに調整 */
+      cursor: pointer;
+    }
+    /* カード本体 */
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* クラスが付与されたら回転 */
+    .card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    /* 表面・裏面の共通設定 */
+    .card__face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      /* 裏側を見せない */
+      backface-visibility: hidden;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* 画像の設定 */
+    .card__face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 裏面の回転設定 */
+    .card__face--back {
+      transform: rotateY(180deg);
+    }
+
+    /* タップ時のハイライト削除（スマホ用） */
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* フッター */
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 0.7rem;
+      color: #aaa;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* 指アイコンのアニメーション */
+    .tap-icon {
+      display: inline-block;
+      animation: touch 2s infinite;
+    }
+
+    @keyframes touch {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>OFFLINE IN NICE</h1>
+    <p class="hint"><span class="tap-icon">👆</span> Tap Map to Flip</p>
+  </header>
+
+  <div class="scene">
+    <div class="card">
+      <div class="card__face card__face--front">
+        <img src="page1.png" alt="Map Front">
+      </div>
+      <div class="card__face card__face--back">
+        <img src="page2.png" alt="Map Back">
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    2026 / NICE TRIP
+  </footer>
+
+  <script>
+    // カードをクリックした時の動作
+    const card = document.querySelector('.card');
+    card.addEventListener('click', function () {
+      card.classList.toggle('is-flipped');
+    });
+  </script>
+
+</body>
+
+</html>
